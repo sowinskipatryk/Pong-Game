@@ -39,6 +39,7 @@ class Paddle:
         self.x = self.orig_x
         self.y = self.orig_y
 
+
 class Ball:
     width = PADDLE_WIDTH
     height = PADDLE_HEIGHT
@@ -63,6 +64,7 @@ class Ball:
         self.x = self.orig_x
         self.y = self.orig_y
 
+
 def pad_movement(keys, left_pad, right_pad):
     if keys[pygame.K_w] and left_pad.y - left_pad.vel >= 0:
         left_pad.move('up')
@@ -73,12 +75,12 @@ def pad_movement(keys, left_pad, right_pad):
     if keys[pygame.K_DOWN] and right_pad.y + PADDLE_HEIGHT + right_pad.vel <= HEIGHT:
         right_pad.move('down')
 
+
 def bounce(ball, left_paddle, right_paddle):
     if ball.y - BALL_RADIUS <= 0:
         ball.vel_y *= -1
     elif ball.y + BALL_RADIUS >= HEIGHT:
         ball.vel_y *= -1
-
     if ball.x < left_paddle.x + PADDLE_WIDTH:
         if left_paddle.y < ball.y + BALL_RADIUS and left_paddle.y + PADDLE_HEIGHT > ball.y:
             ball.vel_x *= -1
@@ -100,25 +102,22 @@ def show_scores(font, screen, score_left, score_right):
 
 def draw(win, left_paddle, right_paddle, ball, score_left, score_right):
     win.fill(BG_COLOR)
-
     show_scores(FONT, win, score_left, score_right)
-
     left_paddle.draw()
     right_paddle.draw()
-
     ball.draw()
-
     pygame.display.update()
+
 
 def main():
     clock = pygame.time.Clock()
-    pygame.display.set_caption('Pong')
-
+    pygame.display.set_caption('pong')
+    
     left_pad = Paddle(EDGE_DEVIATION, HEIGHT // 2 - PADDLE_HEIGHT // 2)
     right_pad = Paddle(WIDTH - PADDLE_WIDTH - EDGE_DEVIATION, HEIGHT // 2 - PADDLE_HEIGHT // 2)
     ball = Ball()
 
-    score_left, score_right = 0,0
+    score_left, score_right = 0, 0
 
     game_finished = False
     run = True
@@ -128,7 +127,6 @@ def main():
         draw(SCREEN, left_pad, right_pad, ball, score_left, score_right)
 
         keys = pygame.key.get_pressed()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -137,7 +135,7 @@ def main():
 
         pad_movement(keys, left_pad, right_pad)
         ball.move()
-        bounce(ball,left_pad,right_pad)
+        bounce(ball, left_pad, right_pad)
 
         if ball.x < 0:
             ball.reset()
@@ -157,14 +155,16 @@ def main():
             win_msg = FONT.render('Left paddle wins!', True, (0, 0, 0))
             play_again_msg = FONT.render('Play again? Y/N', True, (0, 0, 0))
             SCREEN.blit(win_msg, (WIDTH // 2 - win_msg.get_width() // 2, HEIGHT // 2 - win_msg.get_height() // 2 - 10))
-            SCREEN.blit(play_again_msg, (WIDTH // 2 - play_again_msg.get_width() // 2, HEIGHT // 2 + win_msg.get_height() // 2 - play_again_msg.get_height() // 2))
+            SCREEN.blit(play_again_msg, (WIDTH // 2 - play_again_msg.get_width() // 2, HEIGHT // 2 +
+                                         win_msg.get_height() // 2 - play_again_msg.get_height() // 2))
             pygame.display.flip()
             game_finished = True
         elif score_right == BEST_OF:
             win_msg = FONT.render('Right paddle wins!', True, (0, 0, 0))
             play_again_msg = FONT.render('Play again? Y/N', True, (0, 0, 0))
             SCREEN.blit(win_msg, (WIDTH // 2 - win_msg.get_width() // 2, HEIGHT // 2 - win_msg.get_height() // 2 - 10))
-            SCREEN.blit(play_again_msg, (WIDTH // 2 - play_again_msg.get_width() // 2, HEIGHT // 2 + win_msg.get_height() // 2 - play_again_msg.get_height() // 2))
+            SCREEN.blit(play_again_msg, (WIDTH // 2 - play_again_msg.get_width() // 2, HEIGHT // 2 +
+                                         win_msg.get_height() // 2 - play_again_msg.get_height() // 2))
             pygame.display.flip()
             game_finished = True
         while game_finished:
@@ -182,5 +182,7 @@ def main():
                         game_finished = False
     pygame.quit()
 
+
 if __name__ == '__main__':
     main()
+    
